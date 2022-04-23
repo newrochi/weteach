@@ -11,6 +11,23 @@
 |
 */
 
+use Illuminate\Support\Facades\Auth;
+
 Route::get('/', function () {
     return view('home');
+});
+Auth::routes(['verify'=>true]);
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/logout',function(){
+    Auth::logout();
+    return redirect('/');
+});
+
+Route::group(['middleware'=>['auth','verified']],function () {
+    Route::get('dashboard',function(){
+        echo 'Welcome to the dashboard<br/>';
+        echo "<a href='/logout'>logout</a>";
+    });
 });
