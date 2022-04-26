@@ -26,8 +26,12 @@ Route::get('/logout',function(){
 });
 
 Route::group(['middleware'=>['auth','verified']],function () {
-    Route::get('dashboard',function(){
-        echo 'Welcome to the dashboard<br/>';
-        echo "<a href='/logout'>logout</a>";
-    });
+    Route::get('dashboard','DashboardController@index')->name('dashboard');
+
+    Route::get('settings/profile','DashboardController@profile')->name('profile');
+    Route::post('settings/profile','DashboardController@profile_save')->name('profile.save');
+    Route::get('settings/security','DashboardController@security')->name('security');
+    Route::post('settings/security','DashboardController@security_save')->name('security.save');
+    Route::get('settings/billing','DashboardController@billing')->name('billing');
+    Route::post('settings/billing','DashboardController@billing_save')->name('billing.save');
 });
